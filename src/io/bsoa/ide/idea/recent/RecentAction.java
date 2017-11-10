@@ -5,7 +5,6 @@ import com.intellij.ide.RecentProjectsManagerBase;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
                             System.out.println(recentPath);
                         }
                         System.out.println("-----");
-                    } catch (IllegalAccessException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -81,12 +80,14 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
     }
 
     private static void sortRecentPaths(Map<String, String> map, List<String> recentPaths) {
-        Collections.sort(recentPaths, new Comparator<String>() {
+        recentPaths.sort(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 String p1 = map.get(o1);
                 String p2 = map.get(o2);
-                return p1.compareTo(p2);
+                return p1 == null ? 
+                        (p2 == null ? 0 : -1)
+                        : (p2 == null ? 1 : p1.compareTo(p2));
             }
         });
     }

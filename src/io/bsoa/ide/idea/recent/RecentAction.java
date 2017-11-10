@@ -5,12 +5,10 @@ import com.intellij.ide.RecentProjectsManagerBase;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -54,22 +52,21 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
                         /* for (Map.Entry<String, String> entry : map.entrySet()) {
                             System.out.println(entry.getKey() + ":" + entry.getValue());
                         }
-                        System.out.println("-----");
+                        System.out.println("-----");*/
                         for (String recentPath : state.recentPaths) {
                             System.out.println(recentPath);
                         }
-                        System.out.println("-----");*/
-                        Map<String, String> newMap = convertToSortedMap(map, state.recentPaths);
-                        myNameCacheField.set(base, newMap);
+                        System.out.println("-----");
+                        sortRecentPaths(map, state.recentPaths);
 
                        /* for (Map.Entry<String, String> entry : newMap.entrySet()) {
                             System.out.println(entry.getKey() + ":" + entry.getValue());
                         }
-                        System.out.println("-----");
+                        System.out.println("-----");*/
                         for (String recentPath : state.recentPaths) {
                             System.out.println(recentPath);
                         }
-                        System.out.println("-----");*/
+                        System.out.println("-----");
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -77,32 +74,21 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
             }, 20, 10, TimeUnit.SECONDS);
         }
     }
-    
+
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-       
+
     }
 
-    private static Map<String, String> convertToSortedMap(Map<String, String> map, List<String> recentPaths) {
-        List<Map.Entry<String,String>> list = new ArrayList<Map.Entry<String,String>>(map.entrySet());
-        Collections.sort(list,new Comparator<Map.Entry<String,String>>() {
-            //升序排序
-            public int compare(Map.Entry<String, String> o1,
-                               Map.Entry<String, String> o2) {
-                return o1.getValue().compareTo(o2.getValue());
+    private static void sortRecentPaths(Map<String, String> map, List<String> recentPaths) {
+        Collections.sort(recentPaths, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String p1 = map.get(o1);
+                String p2 = map.get(o2);
+                return p1.compareTo(p2);
             }
         });
-        Map<String, String> newMap = Collections.synchronizedMap(new TreeMap<>());
-        List<String> newList = new ArrayList<>();
-        for (Map.Entry<String, String> entry : list) {
-            newMap.put(entry.getKey(), entry.getValue());
-            if(recentPaths.contains(entry.getKey())){
-                newList.add(entry.getKey());
-            }
-        }
-        recentPaths.clear();
-        recentPaths.addAll(newList);
-        return newMap;
     }
 }
 

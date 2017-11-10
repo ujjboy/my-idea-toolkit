@@ -48,10 +48,28 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
                 public void run() {
                     RecentProjectsManagerBase base = (RecentProjectsManagerBase) RecentProjectsManager.getInstance();
                     RecentProjectsManagerBase.State state = base.getState();
+                    //  System.out.println("===========");
                     try {
                         Map<String, String> map = (Map<String, String>) myNameCacheField.get(base);
+                        /* for (Map.Entry<String, String> entry : map.entrySet()) {
+                            System.out.println(entry.getKey() + ":" + entry.getValue());
+                        }
+                        System.out.println("-----");
+                        for (String recentPath : state.recentPaths) {
+                            System.out.println(recentPath);
+                        }
+                        System.out.println("-----");*/
                         Map<String, String> newMap = convertToSortedMap(map, state.recentPaths);
                         myNameCacheField.set(base, newMap);
+
+                       /* for (Map.Entry<String, String> entry : newMap.entrySet()) {
+                            System.out.println(entry.getKey() + ":" + entry.getValue());
+                        }
+                        System.out.println("-----");
+                        for (String recentPath : state.recentPaths) {
+                            System.out.println(recentPath);
+                        }
+                        System.out.println("-----");*/
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -75,11 +93,15 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
             }
         });
         Map<String, String> newMap = Collections.synchronizedMap(new TreeMap<>());
-        recentPaths.clear();
+        List<String> newList = new ArrayList<>();
         for (Map.Entry<String, String> entry : list) {
             newMap.put(entry.getKey(), entry.getValue());
-            recentPaths.add(entry.getKey());
+            if(recentPaths.contains(entry.getKey())){
+                newList.add(entry.getKey());
+            }
         }
+        recentPaths.clear();
+        recentPaths.addAll(newList);
         return newMap;
     }
 }

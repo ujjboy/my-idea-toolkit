@@ -1,8 +1,10 @@
-package io.bsoa.ide.idea.recent;
+package org.howtimeflies.ide.idea.recent;
 
 import com.intellij.ide.RecentProjectsManager;
 import com.intellij.ide.RecentProjectsManagerBase;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -14,9 +16,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by zhanggeng on 2017/11/9.
  *
- * @author <a href="mailto:zhanggeng.zg@antfin.com">zhanggeng</a>
+ * @author <a href="mailto:ujjboy@qq.com">zhanggeng</a>
  */
-public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
+public class RecentSortAction extends AnAction {
+
+    private static final Logger LOG = Logger.getInstance(AnAction.class);
 
     static Field myNameCacheField;
 
@@ -25,7 +29,7 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
             myNameCacheField = RecentProjectsManagerBase.class.getDeclaredField("myNameCache");
             myNameCacheField.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            String[] fieldNames = "a,b,c,d,e".split(",");
+            String[] fieldNames = "a,b,c,d,e,f,g".split(","); // 代码被混淆，挨个找
             for (String s : fieldNames) {
                 try {
                     Field field = RecentProjectsManagerBase.class.getDeclaredField(s);
@@ -39,7 +43,7 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
             }
         }
         if (myNameCacheField != null && myNameCacheField.isAccessible()) {
-            System.out.println("启动历史项目监听线程!");
+            LOG.info("启动历史项目监听线程!");
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
@@ -53,9 +57,9 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
                         }
                         System.out.println("-----");*/
                         for (String recentPath : state.recentPaths) {
-                            System.out.println(recentPath);
+                            LOG.info(recentPath);
                         }
-                        System.out.println("-----");
+                        LOG.info("-----");
                         sortRecentPaths(map, state.recentPaths);
 
                        /* for (Map.Entry<String, String> entry : newMap.entrySet()) {
@@ -63,11 +67,11 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
                         }
                         System.out.println("-----");*/
                         for (String recentPath : state.recentPaths) {
-                            System.out.println(recentPath);
+                            LOG.info(recentPath);
                         }
-                        System.out.println("-----");
+                        LOG.info("-----");
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOG.error("Sort recent project error !", e);
                     }
                 }
             }, 20, 10, TimeUnit.SECONDS);
@@ -85,7 +89,7 @@ public class RecentAction extends com.intellij.openapi.actionSystem.AnAction {
             public int compare(String o1, String o2) {
                 String p1 = map.get(o1);
                 String p2 = map.get(o2);
-                return p1 == null ? 
+                return p1 == null ?
                         (p2 == null ? 0 : -1)
                         : (p2 == null ? 1 : p1.compareTo(p2));
             }

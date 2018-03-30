@@ -1,4 +1,4 @@
-# my-idea-tookkit
+# my-idea-toolkit
 
 自用的 IntelliJ IDEA 插件，包含如下功能：
 
@@ -9,8 +9,8 @@
 
 ## 历史记录记录排序
 
-首先在工程的 File-Project Structure - Project 里设置 Project Name。
-效果参见：
+首先在工程的 「File - Project Structure - Project」 里设置 Project Name。
+后台会定时进行排序，效果参见：
 
 ![](./doc/action_sort.png)
 

@@ -1,4 +1,4 @@
-package org.howtimeflies.ide.idea.recent;
+package org.howtimeflies.ide.idea.action;
 
 import com.intellij.ide.RecentProjectsManager;
 import com.intellij.ide.RecentProjectsManagerBase;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RecentSortAction extends AnAction {
 
-    private static final Logger LOG = Logger.getInstance(AnAction.class);
+    private static final Logger LOG = Logger.getInstance(RecentSortAction.class);
 
     static Field myNameCacheField;
 
@@ -59,7 +59,7 @@ public class RecentSortAction extends AnAction {
                         for (String recentPath : state.recentPaths) {
                             LOG.info(recentPath);
                         }
-                        LOG.info("-----");
+                        LOG.info("---before sort---");
                         sortRecentPaths(map, state.recentPaths);
 
                        /* for (Map.Entry<String, String> entry : newMap.entrySet()) {
@@ -69,8 +69,8 @@ public class RecentSortAction extends AnAction {
                         for (String recentPath : state.recentPaths) {
                             LOG.info(recentPath);
                         }
-                        LOG.info("-----");
-                    } catch (Exception e) {
+                        LOG.info("---after sort---");
+                    } catch (Throwable e) {
                         LOG.error("Sort recent project error !", e);
                     }
                 }

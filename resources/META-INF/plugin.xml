@@ -1,17 +1,24 @@
 <idea-plugin>
-    <id>org.howtimeflies.ide.idea.recent</id>
+    <id>org.howtimeflies.ide.idea.action</id>
     <name>Recent Projects Sort</name>
-    <version>1.1</version>
-    <vendor email="ujjboy@qq.com" url="http://www.howtimeflies.org">Geng Zhang</vendor>
+    <version>1.2</version>
+    <vendor email="ujjboy@qq.com" url="https://github.com/ujjboy">Geng Zhang</vendor>
 
     <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      提供一些辅助能力：历史项目自动排序，用关联程序打开，打开Git远程仓库等。<br>
+      更多请关注 ChangeNote
     ]]></description>
 
     <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      v1.2:<br>
+      - 增加打开Git仓库功能<br>
+      - 调整菜单位置<br>
+      <br>
+      v1.1:<br>
+      - 增加用关联程序打开功能<br>
+      <br>
+      v1.0:<br>
+      - 增加历史项目自动排序功能<br>
     ]]>
     </change-notes>
 
@@ -29,17 +36,26 @@
     </extensions>
 
     <actions>
-        <group id="RecentAction.menu" text="Recent Projects Sort" description="Recent Projects Sort">
+        <group id="MyToolkit.menu" text="Recent Projects Sort" description="Recent Projects Sort">
             <!-- 无需菜单 -->
             <!--<add-to-group group-id="FileMenu" anchor="last"/>-->
-            <action id="RecentAction"
-                    class="org.howtimeflies.ide.idea.recent.RecentSortAction"
+            <action id="MyToolkit.recentSortAction"
+                    class="org.howtimeflies.ide.idea.action.RecentSortAction"
                     text="Recent Projects Sort" description="Open Recent自动排序">
             </action>
         </group>
-        <action id="RecentAction.OpenAction" class="org.howtimeflies.ide.idea.recent.OpenAction" text="Open With Associated Application"
-                description="用系统命令打开">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="WeighingNewGroup"/>
+
+        <action id="MyToolkit.OpenAction" class="org.howtimeflies.ide.idea.action.OpenAction"
+                text="Open in Associated Application"
+                description="用关联程序打开">
+            <add-to-group group-id="RunContextPopupGroup" anchor="after" relative-to-action="RevealGroup"/>
+        </action>
+
+        <action id="Git.OpenGitRepoAction" class="org.howtimeflies.ide.idea.action.OpenGitRepoAction"
+                text="Open Git repository"
+                description="打开Git远程仓库">
+            <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="RecentAction.OpenAction"/>-->
+            <add-to-group group-id="Git.ContextMenu" anchor="after" relative-to-action="Git.RepositoryContextMenu"/>
         </action>
     </actions>
 

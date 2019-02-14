@@ -1,4 +1,4 @@
-package org.howtimeflies.ide.idea.recent;
+package org.howtimeflies.ide.idea.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class OpenAction extends AnAction {
 
-    private static final Logger LOG = Logger.getInstance(AnAction.class);
+    private static final Logger LOG = Logger.getInstance(OpenAction.class);
 
     @Override
     public void actionPerformed(AnActionEvent e) {

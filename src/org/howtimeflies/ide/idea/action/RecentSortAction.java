@@ -1,5 +1,6 @@
 package org.howtimeflies.ide.idea.action;
 
+import com.intellij.ide.RecentProjectManagerState;
 import com.intellij.ide.RecentProjectsManager;
 import com.intellij.ide.RecentProjectsManagerBase;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -26,7 +27,7 @@ public class RecentSortAction extends AnAction {
 
     static {
         try {
-            myNameCacheField = RecentProjectsManagerBase.class.getDeclaredField("myNameCache");
+            myNameCacheField = RecentProjectsManagerBase.class.getDeclaredField("nameCache");
             myNameCacheField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             String[] fieldNames = "a,b,c,d,e,f,g".split(","); // 代码被混淆，挨个找
@@ -48,7 +49,7 @@ public class RecentSortAction extends AnAction {
                 @Override
                 public void run() {
                     RecentProjectsManagerBase base = (RecentProjectsManagerBase) RecentProjectsManager.getInstance();
-                    RecentProjectsManagerBase.State state = base.getState();
+                    RecentProjectManagerState state = base.getState();
                     //  System.out.println("===========");
                     try {
                         Map<String, String> map = (Map<String, String>) myNameCacheField.get(base);
@@ -56,17 +57,17 @@ public class RecentSortAction extends AnAction {
                             System.out.println(entry.getKey() + ":" + entry.getValue());
                         }
                         System.out.println("-----");*/
-                        for (String recentPath : state.recentPaths) {
+                        for (String recentPath : state.getRecentPaths()) {
                             LOG.info(recentPath);
                         }
                         LOG.info("---before sort---");
-                        sortRecentPaths(map, state.recentPaths);
+                        sortRecentPaths(map, state.getRecentPaths());
 
                        /* for (Map.Entry<String, String> entry : newMap.entrySet()) {
                             System.out.println(entry.getKey() + ":" + entry.getValue());
                         }
                         System.out.println("-----");*/
-                        for (String recentPath : state.recentPaths) {
+                        for (String recentPath : state.getRecentPaths()) {
                             LOG.info(recentPath);
                         }
                         LOG.info("---after sort---");

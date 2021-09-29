@@ -39,23 +39,23 @@
     </extensions>
 
     <actions>
-        <group id="MyToolkit.menu" text="Recent Projects Sort" description="Recent Projects Sort">
-            <!-- 无需菜单 -->
-            <!--<add-to-group group-id="FileMenu" anchor="last"/>-->
+        <group id="MyToolkit.menu" text="Geng's toolkit" description="Geng's toolkit">
+            <add-to-group group-id="FileMenu" anchor="before" relative-to-action="PowerSaveGroup"/>
             <action id="MyToolkit.recentSortAction"
                     class="org.howtimeflies.ide.idea.action.RecentSortAction"
                     text="Recent Projects Sort" description="Open Recent自动排序">
+                <add-to-group group-id="MyToolkit.menu" anchor="last"/>
             </action>
         </group>
 
         <action id="MyToolkit.OpenWithAssociatedAction" class="org.howtimeflies.ide.idea.action.OpenAction"
-                text="Associated Application"
+                text="Associated Application" icon="AllIcons.Actions.OpenNewTab"
                 description="用关联程序打开">
             <add-to-group group-id="RevealGroup" anchor="after" relative-to-action="RevealGroup"/>
         </action>
 
         <action id="MyToolkit.OpenGitRepoAction" class="org.howtimeflies.ide.idea.action.OpenGitRepoAction"
-                text="Git Repository"
+                text="Git Repository" icon="AllIcons.Vcs.Branch"
                 description="打开Git远程仓库">
             <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="RecentAction.OpenAction"/>-->
             <add-to-group group-id="RevealGroup" anchor="after" relative-to-action="MyToolkit.OpenWithAssociatedAction"/>

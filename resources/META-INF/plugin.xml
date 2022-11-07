@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.howtimeflies.ide.idea.action</id>
     <name>Recent Projects Sort</name>
-    <version>1.3</version>
+    <version>1.4</version>
     <vendor email="ujjboy@qq.com" url="https://github.com/ujjboy">Geng Zhang</vendor>
 
     <description><![CDATA[
@@ -10,6 +10,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      v1.4:<br>
+      - 适配新版 IDEA<br>
+      <br>
       v1.3:<br>
       - 适配新版 IDEA<br>
       <br>
@@ -44,7 +47,6 @@
             <action id="MyToolkit.recentSortAction"
                     class="org.howtimeflies.ide.idea.action.RecentSortAction"
                     text="Recent Projects Sort" description="Open Recent自动排序">
-                <add-to-group group-id="MyToolkit.menu" anchor="last"/>
             </action>
         </group>
 
